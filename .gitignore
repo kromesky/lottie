@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Claude AI
+CLAUDE.md
+.claude/
+
+# Large zip downloads
+*.zip
+
+# Scraped/working data files
+*.json
+jennywool.wixsite.com_*.md
+sources.html
+sources-2.html
+content.md
+download-hires.sh

@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg: #faf8f5;
+  --bg-dark: #1a1814;
+  --text: #2c2820;
+  --text-light: #6b5e52;
+  --accent: #8b2a2a;
+  --accent-light: #c4a882;
+  --border: #e0d5c5;
+  --max-width: 760px;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-head: 'Raleway', 'Helvetica Neue', Arial, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Navigation ───────────────────────────────────────────── */
+
+nav {
+  background-color: var(--bg-dark);
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav ul {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+nav a {
+  color: #d9cfc4;
+  display: block;
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+nav a:hover,
+nav a.active {
+  color: #fff;
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+
+.hero {
+  background-color: var(--bg-dark);
+  color: #fff;
+  text-align: center;
+  padding: 3.5rem 1.5rem 3rem;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 0.75rem;
+}
+
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.hero-title .amp {
+  color: var(--accent-light);
+  font-weight: 300;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: #b0a090;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+/* ── Hero Image ───────────────────────────────────────────── */
+
+.hero-image {
+  width: 100%;
+  max-height: 520px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #111;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  opacity: 0.88;
+  display: block;
+}
+
+/* ── Main Content ─────────────────────────────────────────── */
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+article > p,
+article > ul,
+article > ol {
+  margin-bottom: 1.5rem;
+}
+
+article p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Headings ─────────────────────────────────────────────── */
+
+h2 {
+  font-family: var(--font-head);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: var(--accent);
+  margin-top: 3.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+h2:first-child {
+  margin-top: 0;
+}
+
+/* ── Inline links ─────────────────────────────────────────── */
+
+article a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-light);
+  text-underline-offset: 2px;
+  transition: color 0.15s;
+}
+
+article a:hover {
+  color: #5a1a1a;
+  text-decoration-color: var(--accent);
+}
+
+/* ── Footnote refs ────────────────────────────────────────── */
+
+sup a.ref {
+  color: var(--accent);
+  font-size: 0.72em;
+  font-family: var(--font-head);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0 0.1em;
+  vertical-align: super;
+  line-height: 1;
+}
+
+sup a.ref:hover {
+  text-decoration: underline;
+}
+
+p.citation {
+  color: var(--text-light);
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  margin-top: -0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Images / Figures ─────────────────────────────────────── */
+
+figure {
+  margin: 2.5rem 0;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+figcaption {
+  color: var(--text-light);
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-top: 0.6rem;
+  padding: 0 0.25rem;
+}
+
+figcaption .fig-ref {
+  margin-left: 0.5em;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+
+/* Narrow figures (portraits, coins, small items) */
+figure.narrow {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure.portrait {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Horizontal rule / section divider ───────────────────── */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* ── About / Contact ─────────────────────────────────────── */
+
+.about-section {
+  background-color: #f0ece5;
+  border-left: 4px solid var(--accent-light);
+  border-radius: 0 4px 4px 0;
+  padding: 1.5rem 2rem;
+  margin-top: 3.5rem;
+}
+
+.about-section h2 {
+  border-bottom: none;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+.contact-email {
+  font-family: var(--font-head);
+  font-size: 0.9rem;
+}
+
+.contact-email a {
+  color: var(--accent);
+  word-break: break-all;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+
+footer {
+  background-color: var(--bg-dark);
+  color: #7a7060;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+footer a {
+  color: var(--accent-light);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #fff;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  body {
+    font-size: 1rem;
+  }
+
+  nav a {
+    font-size: 0.72rem;
+    padding: 0.9rem 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero {
+    padding: 2.5rem 1rem 2rem;
+  }
+
+  main {
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  figure {
+    margin: 2rem -0.25rem;
+  }
+
+  figure.narrow,
+  figure.portrait {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero-image {
+    max-height: 620px;
+  }
+}
