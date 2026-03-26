@@ -17,8 +17,246 @@
   {"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"The Lifestory of Janet, Nettie and Lottie Hamilton","description":"A family history inspired by a gravestone found in Thirsk, tracing the 1892 railway disaster that killed five-year-old Lottie Hamilton.","author":{"@type":"Person","name":"Jenny Wool"}},{"@type":"Event","name":"Thirsk Railway Disaster","startDate":"1892-11-02","location":{"@type":"Place","name":"Manor House signal cabin, near Thirsk, North Yorkshire"},"description":"Collision between the Edinburgh–London express and a goods train, caused by exhausted signalman James Holmes. Nine passengers killed."},{"@type":"Person","name":"Charlotte Henderson Hamilton","alternateName":"Lottie Hamilton","birthDate":"1887-03-07","deathDate":"1892-11-02","birthPlace":{"@type":"Place","name":"Govan, Glasgow"},"deathPlace":{"@type":"Place","name":"near Thirsk, North Yorkshire"}}]}
   </script>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── V2 enhancements ─────────────────────────────────── */
+    body { overflow-x: hidden; }
+
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 200;
+      transition: width 0.08s linear;
+      pointer-events: none;
+    }
+
+    /* ── Act break panels ─────────────────────────────────── */
+    .act-break {
+      position: relative;
+      left: 50%;
+      width: 100vw;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3.5rem 2rem;
+      overflow: hidden;
+    }
+
+    .act-break::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      filter: brightness(0.28);
+      z-index: 0;
+    }
+
+    .act-break-content { position: relative; z-index: 1; color: #fff; }
+
+    .act-break-eyebrow {
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .act-break-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .act-crash::before    { background-image: url('../images/hires/thirsk-crash-ruined-engine.jpg'); }
+    .act-aftermath::before { background-image: url('../images/hires/rms-orizaba-passenger-record.jpg'); }
+    .act-singapore::before { background-image: url('../images/hires/ss-airlie.jpg'); }
+    .act-later::before     { background-image: url('../images/hires/gravestone-janet-william-carswell-joseph-mills.jpg'); }
+
+    @media (max-width: 768px) {
+      .act-break::before { background-attachment: scroll; }
+    }
+
+    /* ── Pull quotes ──────────────────────────────────────── */
+    .pull-quote {
+      border: none;
+      border-left: none;
+      margin: 2.5rem auto;
+      padding: 2rem 2.5rem;
+      background: #f0ece5;
+      border-radius: 2px;
+      text-align: center;
+      max-width: 620px;
+    }
+
+    .pull-quote p {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+      line-height: 1.6;
+      color: var(--accent);
+      margin-bottom: 0;
+    }
+
+    .pull-quote p::before {
+      content: '\201C';
+      font-size: 3.5rem;
+      line-height: 0;
+      vertical-align: -1.2rem;
+      color: var(--accent-light);
+      font-family: Georgia, serif;
+      margin-right: 0.05em;
+    }
+
+    .pull-quote cite {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      margin-top: 0.75rem;
+      font-style: normal;
+      text-transform: uppercase;
+    }
+
+    /* ── Fade-in on scroll ────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Wide page layout ───────────────────────────────────── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 860px);
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      gap: 0 3rem;
+      align-items: start;
+    }
+
+    .page-layout main {
+      max-width: none;
+      margin: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    /* ── Chapter sidebar nav ──────────────────────────────── */
+    .chapter-nav {
+      position: sticky;
+      top: 4.5rem;
+      padding: 2.5rem 0;
+      font-family: var(--font-head);
+    }
+
+    .chapter-nav-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+      padding-left: 1rem;
+    }
+
+    .chapter-nav ol {
+      list-style: none;
+      border-left: 2px solid var(--border);
+      margin: 0;
+      padding: 0;
+    }
+
+    .chapter-nav li a {
+      display: block;
+      padding: 0.5rem 1rem;
+      font-size: 0.77rem;
+      font-weight: 400;
+      color: var(--text-light);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      margin-left: -2px;
+      transition: color 0.2s, border-color 0.2s;
+      line-height: 1.35;
+    }
+
+    .chapter-nav li a:hover { color: var(--text); }
+
+    .chapter-nav li a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── Act-break: full-width of content column ─────────────── */
+    .act-break {
+      left: auto;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      clear: both;
+      min-height: 200px;
+    }
+
+    /* ── Float figures for layout variety ───────────────────── */
+    figure.pull-right {
+      float: right;
+      max-width: 270px !important;
+      margin: 0.25rem 0 1.5rem 2.5rem !important;
+      clear: right;
+    }
+
+    figure.pull-left {
+      float: left;
+      max-width: 270px !important;
+      margin: 0.25rem 2.5rem 1.5rem 0 !important;
+      clear: left;
+    }
+
+    h2 { clear: both; }
+
+    /* ── Responsive: collapse sidebar ───────────────────────── */
+    @media (max-width: 920px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+        padding: 0;
+      }
+      .chapter-nav { display: none; }
+      .page-layout main { padding: 2rem 1.25rem 3rem; }
+      figure.pull-right, figure.pull-left {
+        float: none;
+        max-width: 100% !important;
+        margin: 2rem 0 !important;
+      }
+      .act-break {
+        left: 50%;
+        width: 100vw;
+        margin-left: -50vw;
+        margin-right: -50vw;
+      }
+    }
+  </style>
 </head>
 <body>
+
+<div id="progress-bar"></div>
 
 <nav>
   <ul>
@@ -38,8 +276,19 @@
        alt="&ldquo;To the memory of dear little Lottie Hamilton&rdquo; — the gravestone in Thirsk cemetery" loading="eager">
 </div>
 
+<div class="page-layout">
+<aside class="chapter-nav" aria-label="Chapter navigation">
+  <p class="chapter-nav-label">Chapters</p>
+  <ol>
+    <li><a href="#chapter-start">Glasgow &amp; Alexandria</a></li>
+    <li><a href="#chapter-crash">The Crash</a></li>
+    <li><a href="#chapter-aftermath">A World Away</a></li>
+    <li><a href="#chapter-singapore">Singapore &amp; NZ</a></li>
+    <li><a href="#chapter-later">Wahroonga</a></li>
+  </ol>
+</aside>
 <main>
-<article>
+<article id="chapter-start">
 
 <p>This page contains a family history of Janet Hamilton, and her two daughters Nettie and Lottie. Its creation was inspired by the finding of a curious gravestone during lockdown walks in Thirsk, in the spring of 2020.</p>
 
@@ -91,13 +340,18 @@
 
 <p>Having travelled to Australia and "finding the climate benefited her health, [Janet] decided to remain and made arrangements for close relatives in Scotland to join her, bringing with them her two children" <sup><a href="sources.html#source-8" class="ref">[8]</a></sup>. In the event, Lottie, the younger child, travelled first with her aunt Ann and uncle William, leaving Nettie back in Alexandria. One newspaper report refers to Lottie as having "been in ill health for some time. It was with a view to her physical benefit that her uncle and aunt commenced this … journey" <sup><a href="sources.html#source-11" class="ref">[11]</a></sup>.</p>
 
-<hr>
+<div class="act-break act-crash" id="chapter-crash">
+  <div class="act-break-content">
+    <p class="act-break-eyebrow">2 November 1892</p>
+    <h2 class="act-break-title">The Crash</h2>
+  </div>
+</div>
 
 <p>Meanwhile, in the small village of <a href="https://en.wikipedia.org/wiki/Thornton-le-Moor">Thornton-le-Moor</a> in North Yorkshire, 25 year old railway signalman James Holmes is tending to his orchard on the afternoon of Monday 31st October, pulling apples for sale at market <sup><a href="sources.html#source-12" class="ref">[12]</a></sup>. Ahead of a twelve hour night shift he usually rested later in the day but decided not to do so on this occasion. On the morning of Tuesday 1st November, he returns home around 7 am having been awake for 24 hours. On arrival he finds that Rosa, his five month old baby girl, has been unwell through the night. James finally falls asleep around 10 am, however only gets a few hours' rest before he is woken by Sarah in a panic. Rosa is having a fit.</p>
 
 <p>James sets off at once to find a doctor, travelling a mile to Otterington station, then catching a lift on a goods train to Northallerton. He reaches the doctor's office but finds that he is out. James hurries the 4½ miles back home to find he is too late. His daughter is dead.</p>
 
-<figure class="portrait">
+<figure class="portrait pull-right">
   <img src="../images/hires/james-holmes-young.jpg" alt="Photograph of James Holmes as a young man" loading="lazy">
   <figcaption>James Holmes as a young man <span class="fig-ref"><sup><a href="sources.html#source-13" class="ref">[13]</a></sup></span></figcaption>
 </figure>
@@ -139,17 +393,27 @@
 
 <p>The crash is one of the most dramatic and deadly in railway history to date, and details of the incident were reported in newspapers across the UK. In a typical display of the Victorian class system at work, the Leeds Times <sup><a href="sources.html#source-14" class="ref">[14]</a></sup> chooses to open its report with the fate of the landed gentry travelling on the train before telling the story of Lottie Hamilton. The Marquis of Huntly and Marquis of Tweeddale (both travelling in the Pullman car) were reported to have walked to a neighbouring labourer's cottage to "partake a cup of tea, before resuming their journey to the south". The latter had removed his boots before sleeping and could not locate them in the confusion after the crash, resulting in the humiliation of having to walk to the cottage in just his stockings. <sup><a href="sources.html#source-18" class="ref">[18]</a></sup></p>
 
-<figure class="narrow">
+<figure class="narrow pull-right">
   <img src="../images/hires/marquis-of-tweeddale-cartoon.jpg" alt="Caricature of the Marquis of Tweeddale from Vanity Fair" loading="lazy">
   <figcaption>The Marquis of Tweeddale — caricature from <em>Vanity Fair</em></figcaption>
 </figure>
 
 <p>When the attention of the Leeds Times finally does get to Lottie, it is a heart-wrenching story. "One of the most distressing incidents was the rescue of a little girl called Lottie Hamilton. For a long time her screams were heard before she could be extricated; and not only was it evident that she was badly bruised, but she was suffering frightful agony from contact with the flames. She was tenderly carried towards Thirsk, but on the way she expired. A pathetic souvenir of the poor girl's fate was afterwards taken from the wreck. This was her doll, with which she had been playing. Its head was melted off, and the dress and body, like those of its unfortunately little mistress, were burnt" <sup><a href="sources.html#source-14" class="ref">[14]</a></sup>.</p>
 
+<blockquote class="pull-quote">
+  <p>Its head was melted off, and the dress and body, like those of its unfortunately little mistress, were burnt.</p>
+  <cite>Leeds Times, November 1892</cite>
+</blockquote>
+
 <figure class="narrow">
   <img src="../images/hires/threepenny-piece-1892.jpg" alt="Photograph of a threepenny piece from 1892 with a hole in it" loading="lazy">
   <figcaption>A threepenny piece from 1892 with a hole in it, like the one Lottie wore around her neck <span class="fig-ref"><sup><a href="sources.html#source-20" class="ref">[20]</a></sup></span></figcaption>
 </figure>
+
+<blockquote class="pull-quote">
+  <p>It was through this gift, which was worn round the neck, that I was able to identify the child.</p>
+  <cite>William McCulloch, survivor</cite>
+</blockquote>
 
 <p>William McCulloch had remarkably survived the crash having been thrown free from the wreckage. He reported: "I went to sleep, and was awoke by a sudden and sharp knock on the head. The next thing that I remember was finding myself among a lot of debris… Presently I heard a man shout for water to pour on a portion of the wrecked and burning train, and what appeared to be a little bundle was brought out of the wreckage. It was the charred body of my little niece, who was only five years of age, and whose name was Lottie Hamilton. She was burnt beyond recognition. Just before we left Scotland my mother gave her a threepenny piece with a hole in it, and it was through this gift, which was worn round the neck, that I was able to identify the child." <sup><a href="sources.html#source-19" class="ref">[19]</a></sup></p>
 
@@ -173,7 +437,7 @@
 
 <p>The newspapers reported an overwhelming amount of public support and sympathy for Signalman Holmes <sup><a href="sources.html#source-26" class="ref">[26]</a></sup>. Messages of condolence and solidarity were published by multiple regions of the Amalgamated Society of Railway Servants, who used the opportunity to lobby (unsuccessfully it seems) against poor working conditions, including a reduction from twelve to eight hour shifts. The Yorkshire Evening Post additionally reported a gathering of 600–700 working men on 13th November <sup><a href="sources.html#source-19" class="ref">[19]</a></sup>, members of the <a href="https://www.richmondhistory.org.uk/wordpress/history-of-richmond/richmonds-congregational-church-vineyard/pleasant-sunday-afternoons-late-victorian-richmond-glimpse-1893-94/">Pleasant Sunday Afternoon Society</a>, who met in order to send a vote of sympathy to Holmes.</p>
 
-<figure class="portrait">
+<figure class="portrait pull-left">
   <img src="../images/hires/james-holmes-old.jpg" alt="Photograph of James Holmes as an old man" loading="lazy">
   <figcaption>James Holmes in later life <span class="fig-ref"><sup><a href="sources.html#source-13" class="ref">[13]</a></sup></span></figcaption>
 </figure>
@@ -187,9 +451,19 @@
 
 <p>James' critical error, it seems, had been to not protest too much when his leave of absence was denied. He had simply stated "it was a bad job as I was in bad fettle for work," adding, "I do not care so much for myself, but I am more bothered about my wife as she is not fit to be left all night by herself" <sup><a href="sources.html#source-12" class="ref">[12]</a></sup>. Lottie's death certificate states "injuries by railway collisions" as the cause of death, when fundamentally it was a fatal case of Victorian stiff upper lip.</p>
 
+<blockquote class="pull-quote">
+  <p>Injuries by railway collision — manslaughter by James Holmes.</p>
+  <cite>Lottie Hamilton's death certificate, 1892</cite>
+</blockquote>
+
 <p>James eventually <a href="https://www.ancestry.co.uk/family-tree/person/tree/22806927/person/1305102704/facts">returned to work</a> for the North Eastern Railway Company, however this time as a railway porter and ticket examiner. He ultimately moved south to Middlesex and died at the age of 70.</p>
 
-<hr>
+<div class="act-break act-aftermath" id="chapter-aftermath">
+  <div class="act-break-content">
+    <p class="act-break-eyebrow">1893 &amp; Beyond</p>
+    <h2 class="act-break-title">A World Away</h2>
+  </div>
+</div>
 
 <p>We can't be sure how and when Janet received the awful news of what had happened to her daughter. A short notice is given two days after the crash on the front page of the Sydney Daily Telegraph <sup><a href="sources.html#source-27" class="ref">[27]</a></sup>, however longer reports which name Lottie and Annie start to appear from the beginning of December <sup><a href="sources.html#source-28" class="ref">[28]</a></sup>, presumably with the arrival of physical copies that had to take the month long voyage around the world. On 19th May 1893 she makes the long journey back to Scotland on the RMS Orient <sup><a href="sources.html#source-29" class="ref">[29]</a></sup>. On 22nd September she makes the return journey one final time, travelling with Nettie <sup><a href="sources.html#source-30" class="ref">[30]</a></sup>. Their voyage is recorded on the ship's passenger log: a Mrs J Hamilton and Janet Hamilton aged 7 years, travelling alone from London to Sydney on the RMS Orizaba. The ship was wrecked in 1905 off the coast of Western Australia — today it's an active dive site.</p>
 
@@ -209,7 +483,7 @@
 
 <p>The building of the house at Avondale is shortly followed by a school, Avondale School for Christian Workers (today <a href="https://www.avondale.edu.au/">Avondale University College</a>), where William R Carswell, a former shepherd from New Zealand, is one of the first students <sup><a href="sources.html#source-34" class="ref">[34]</a></sup>. Janet and William marry in 1896, the first marriage officiated by the Seventh Day Adventist Church in Cooranbong, and Janet and Nettie become Carswells. The next year William graduates from Avondale College, and Janet and Nettie join him on his assigned mission of spreading the truth to the people of Toowoomba, Queensland. They canvass door to door selling "<a href="https://www.ellenwhite.info/books/books-by-egw-pp.htm">Patriarchs and Prophets</a>", a 750 page volume on the conflict between good and evil written by Ellen White <sup><a href="sources.html#source-35" class="ref">[35a–h]</a></sup>.</p>
 
-<figure class="portrait">
+<figure class="portrait pull-right">
   <img src="../images/hires/william-carswell.png" alt="Photograph of William Carswell" loading="lazy">
   <figcaption>William R. Carswell</figcaption>
 </figure>
@@ -221,7 +495,12 @@
 
 <p>They continue in this line of work until returning to Sydney in 1904 <sup><a href="sources.html#source-38" class="ref">[38]</a></sup>, where Nettie, now aged 19, commences a teaching degree at Avondale College <sup><a href="sources.html#source-39" class="ref">[39a–b]</a></sup>. She graduates in 1906, after which Janet and Nettie part ways once more. William is called to New Zealand, and William's knowledge of the Maori language leads him to the Gisborne district where he set about visiting pahs (Maori villages) and translating Adventist literature. William and Janet are joined by two Adventist-trained nurses, Mr and Mrs Reid-Smith. Their presence means that alongside their missionary work they also give instruction in matters of health. Janet is mentioned in multiple sources <sup><a href="sources.html#source-32" class="ref">[32,41]</a></sup> as continuing to have prolonged ill health, and Mr Reid-Smith dies in 1910 in a typhoid outbreak. Janet returns to Australia and William joins her five months later <sup><a href="sources.html#source-42" class="ref">[42]</a></sup>.</p>
 
-<hr>
+<div class="act-break act-singapore" id="chapter-singapore">
+  <div class="act-break-content">
+    <p class="act-break-eyebrow">1907</p>
+    <h2 class="act-break-title">Singapore &amp; New Zealand</h2>
+  </div>
+</div>
 
 <p>Meanwhile, the Union Conference Records note that "Sister Nettie Carswell is recommended to connect with the work in Singapore" <sup><a href="sources.html#source-43" class="ref">[43]</a></sup>, and on the 4th October 1907 she boarded the <a href="https://www.flotilla-australia.com/eanda.htm">S. S. Airlie</a> at Brisbane <sup><a href="sources.html#source-44" class="ref">[44]</a></sup>.</p>
 
@@ -230,7 +509,7 @@
   <figcaption>The SS Airlie</figcaption>
 </figure>
 
-<figure class="portrait">
+<figure class="portrait pull-left">
   <img src="../images/hires/joseph-mills.png" alt="Photograph of Joseph Mills" loading="lazy">
   <figcaption>Pastor Joseph Mills</figcaption>
 </figure>
@@ -262,7 +541,12 @@
   <figcaption>The Adventist college at Longburn (Oroua), near Palmerston North, New Zealand</figcaption>
 </figure>
 
-<hr>
+<div class="act-break act-later" id="chapter-later">
+  <div class="act-break-content">
+    <p class="act-break-eyebrow">Later Years</p>
+    <h2 class="act-break-title">Wahroonga</h2>
+  </div>
+</div>
 
 <figure>
   <img src="../images/hires/ss-maheno-painting.jpg" alt="Painting of the SS Maheno" loading="lazy">
@@ -332,10 +616,56 @@
 
 </article>
 </main>
+</div>
 
 <footer>
   <p>Written by Jenny Wool &nbsp;·&nbsp; <a href="sources.html">Sources &amp; Bibliography</a></p>
 </footer>
+
+<script>
+  // Reading progress bar
+  const bar = document.getElementById('progress-bar');
+
+  // Chapter nav anchors (in document order)
+  const chapterIds = ['chapter-start', 'chapter-crash', 'chapter-aftermath', 'chapter-singapore', 'chapter-later'];
+  const navLinks = document.querySelectorAll('.chapter-nav a');
+
+  function updateUI() {
+    // Progress bar
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = Math.min(pct, 100) + '%';
+
+    // Active chapter — last anchor whose top is above 40% of the viewport
+    let current = chapterIds[0];
+    chapterIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) {
+        current = id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', updateUI, { passive: true });
+  updateUI(); // set initial state
+
+  // Fade-in on scroll via Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('figure, .pull-quote, .act-break').forEach(el => {
+    el.classList.add('fade-in');
+    observer.observe(el);
+  });
+</script>
 
 </body>
 </html>
