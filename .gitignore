@@ -11,7 +11,5 @@ CLAUDE.md
 # Scraped/working data files
 *.json
 jennywool.wixsite.com_*.md
-sources.html
-sources-2.html
 content.md
 download-hires.sh
